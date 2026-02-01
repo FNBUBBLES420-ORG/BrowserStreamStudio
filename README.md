@@ -1,3 +1,4 @@
+
 <p align="center">
    <img src="https://img.shields.io/badge/Node.js-18%2B-brightgreen" alt="Node.js 18+" />
    <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Mac%20%7C%20Linux-blue" alt="Platform" />
@@ -9,9 +10,11 @@
    <img src="https://img.shields.io/badge/Made%20with-%E2%9D%A4-red" alt="Made with Love" />
 </p>
 
+
 - > © 2026 FNBubbles420 Org — Licensed under GPLv3
 
-# BrowserStream Studio
+
+# 🎥 BrowserStream Studio
 
 BrowserStream Studio is a secure, local-first, web-based streaming application inspired by OBS. It supports multi-platform streaming (Twitch, YouTube, Kick), a live video preview, a plugin system, and strong security by default. All user data and plugins are stored locally.
 
@@ -29,67 +32,106 @@ BrowserStream Studio is a secure, local-first, web-based streaming application i
 ---
 
 
-## 🖥️ For End Users
 
-Welcome to BrowserStream Studio! This app lets you stream to Twitch, YouTube, Kick, or any RTMP server, right from your desktop—no cloud, no accounts required. All your data stays on your computer.
+## 👩‍💻 For End Users
 
-### What You Need
-- **A computer with Windows, Mac, or Linux**
-- **Node.js 18 or newer** (download from [nodejs.org](https://nodejs.org/))
-- (Optional) **Git** if you want to get updates or contribute
 
-### Getting Started (Step-by-Step)
-1. **Download or Clone the App**
-   - If you know Git: `git clone <repo-url>` and open the folder
-   - Or, download the ZIP from GitHub and unzip it
-2. **Install Everything**
-   - Open a terminal/command prompt in the app folder
+🎉 **Welcome to BrowserStream Studio!**
+
+This app lets you stream to **Twitch**, **YouTube**, **Kick**, or any RTMP server, right from your desktop—no cloud, no accounts required. **All your data stays on your computer.**
+
+
+
+### 🧰 What You Need
+- 💻 A computer with **Windows, Mac, or Linux**
+- 🟢 Node.js 18 or newer ([Download here](https://nodejs.org/))
+- 🐙 (Optional) Git if you want to get updates or contribute
+- 🎬 **FFmpeg** must be installed and available in your system PATH (required for streaming)
+
+
+#### FFmpeg Installation
+- 🪟 **Windows Users:**
+   1. [Download FFmpeg](https://ffmpeg.org/download.html) and extract the ZIP file.
+   2. Copy the `bin` folder path (e.g., `C:\ffmpeg\bin`).
+   3. Press <kbd>Win</kbd> + <kbd>R</kbd>, type `sysdm.cpl`, and press Enter.
+   4. Go to the **Advanced** tab and click **Environment Variables**.
+   5. Under **System variables**, select `Path` and click **Edit**.
+   6. Click **New** and paste the `bin` folder path. Click **OK** to save.
+   7. Open a new terminal and run `ffmpeg -version` to check it works.
+- 🍏 **Mac Users:**
+   - Install via Homebrew: `brew install ffmpeg`
+   - Homebrew automatically adds FFmpeg to your PATH.
+- 🐧 **Linux Users:**
+   - Install via your package manager, e.g. `sudo apt install ffmpeg` (Debian/Ubuntu)
+   - Most package managers add FFmpeg to your PATH automatically.
+
+> ⚠️ **Note:** Electron, Node.js, and all dependencies are cross-platform. Just make sure FFmpeg is installed and available in your PATH for your OS.
+
+
+### 🚦 Getting Started (Step-by-Step)
+
+1️⃣ **Download or Clone the App**
+   - 🐙 If you know Git: `git clone <repo-url>` and open the folder
+   - 📦 Or, download the ZIP from GitHub and unzip it
+
+2️⃣ **Install Everything**
+   - 🖥️ Open a terminal/command prompt in the app folder
    - Run:
-     ```
+     ```bash
      npm install
      cd main/backend && npm install
      cd ../frontend && npm install
      cd ../../main && npm install
      ```
-3. **Set Up Streaming Accounts (Optional, but recommended)**
-   - Open `main/backend/.env` in a text editor
-   - Add your Twitch, YouTube, and Kick client IDs/secrets (see the wiki or ask for help if unsure)
-   - Set `RTMP_URL` to your stream server (for Twitch, see your dashboard for the right URL)
 
-4. **Run the App**
-    - In the app folder, open a terminal or command prompt and run:
-       ```
-       npm run dev
-       ```
-    - Wait for a few moments. The app will automatically open in a desktop window (Electron). If it doesn't, check your terminal for errors.
-    - You can also open your web browser and go to [http://localhost:3000](http://localhost:3000) to use the app in your browser.
-    - **Leave the terminal open while using the app!** Closing it will stop the app.
-    - For more advanced options (like running backend/frontend/Electron separately), see the "For Developers" section below.
+3️⃣ **Set Up Streaming Accounts** *(Optional, but recommended)*
+   - 📝 Open `main/backend/.env` in a text editor
+   - 🔑 Add your Twitch, YouTube, and Kick client IDs/secrets (see the wiki or ask for help if unsure)
+   - 🌐 Set `RTMP_URL` to your stream server (for Twitch, see your dashboard for the right URL)
+---
 
-### Using BrowserStream Studio
-1. **Open the App**
-   - The app will open in a desktop window (Electron)
-   - Or, visit http://localhost:3000 in your browser
-2. **Preview Your Camera**
-   - Go to the **Stream** page to see your live camera and mic
-3. **Connect Your Streaming Accounts**
-   - Go to **Settings**
-   - Click "Connect Twitch", "Connect YouTube", or "Connect Kick" and follow the prompts
-4. **Set Your Stream Settings**
-   - In **Settings**, choose your bitrate, resolution, and output type (RTMP or HLS)
-5. **Start Streaming!**
-   - Go to the **Stream** page and click **Start Streaming**
-   - To stop, click **Stop Streaming**
-6. **Try Plugins**
-   - Go to the **Plugins** page to install, run, or remove plugins
+- >💡 **Tip for Windows Users:**
+To open a terminal in the correct folder easily, open your project folder in File Explorer, click the URL bar, type `cmd`, and press Enter. This will open Command Prompt in the right location. Then just run the app as described below!
 
-### Tips & Troubleshooting
-- **All your data stays on your computer.** No cloud, no tracking.
-- **If you see a blank window:** Make sure you ran `npm run dev` and left the terminal open.
-- **Need help?** Open an issue on GitHub or ask a friend who knows Node.js.
-- **Want to stream to a different platform?** Just set the correct RTMP URL in Settings or `.env`.
+## 4️⃣ **Run the App**
+   - In the app folder, open a terminal or command prompt and run:
+     ```bash
+     npm run dev
+     ```
+   - ⏳ Wait a few moments. The app will automatically open in a desktop window (Electron). If it doesn't, check your terminal for errors.
+   - 🌍 You can also open your web browser and go to [http://localhost:3000](http://localhost:3000) to use the app in your browser.
+   - ⚠️ **Leave the terminal open while using the app!** Closing it will stop the app.
+   - 🛠️ For more advanced options (like running backend/frontend/Electron separately), see the "For Developers" section below.
 
-Enjoy streaming!
+
+### 🕹️ Using BrowserStream Studio
+1️⃣ **Open the App**
+   - 🖥️ The app will open in a desktop window (Electron)
+   - 🌍 Or, visit [http://localhost:3000](http://localhost:3000) in your browser
+2️⃣ **Preview Your Camera**
+   - 🎥 Go to the **Stream** page to see your live camera and mic
+3️⃣ **Connect Your Streaming Accounts**
+   - ⚙️ Go to **Settings**
+   - 🔗 Click "Connect Twitch", "Connect YouTube", or "Connect Kick" and follow the prompts
+4️⃣ **Set Your Stream Settings**
+   - 🎚️ In **Settings**, choose your bitrate, resolution, and output type (RTMP or HLS)
+5️⃣ **Start Streaming!**
+   - 🚀 Go to the **Stream** page and click **Start Streaming**
+   - 🛑 To stop, click **Stop Streaming**
+6️⃣ **Try Plugins**
+   - 🧩 Go to the **Plugins** page to install, run, or remove plugins
+
+
+### 💡 Tips & Troubleshooting
+> 🗂️ **All your data stays on your computer.** No cloud, no tracking.
+> 
+> 🕳️ **If you see a blank window:** Make sure you ran `npm run dev` and left the terminal open.
+> 
+> 🆘 **Need help?** Open an issue on GitHub or ask a friend who knows Node.js.
+> 
+> 🌐 **Want to stream to a different platform?** Just set the correct RTMP URL in Settings or `.env`.
+
+🎉 **Enjoy streaming!**
 
 ---
 
