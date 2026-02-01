@@ -248,7 +248,3 @@ This will start the backend, frontend, and Electron app together (using concurre
 - OAuth for Twitch, YouTube, and Kick is set up for local development
 - Security and sanitization are enabled by default
 
-## Next Steps
-- Implement streaming controls and plugin logic
-- Write a full end-user README.md before release
-
