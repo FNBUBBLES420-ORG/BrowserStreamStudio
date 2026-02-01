@@ -123,13 +123,13 @@ To open a terminal in the correct folder easily, open your project folder in Fil
 
 
 ### 💡 Tips & Troubleshooting
-> 🗂️ **All your data stays on your computer.** No cloud, no tracking.
+- > 🗂️ **All your data stays on your computer.** No cloud, no tracking.
 > 
-> 🕳️ **If you see a blank window:** Make sure you ran `npm run dev` and left the terminal open.
+- > 🕳️ **If you see a blank window:** Make sure you ran `npm run dev` and left the terminal open.
 > 
-> 🆘 **Need help?** Open an issue on GitHub or ask a friend who knows Node.js.
+- > 🆘 **Need help?** Open an issue on GitHub or ask a friend who knows Node.js.
 > https://discord.gg/zQbJJgwbUv
-> 🌐 **Want to stream to a different platform?** Just set the correct RTMP URL in Settings or `.env`.
+- > 🌐 **Want to stream to a different platform?** Just set the correct RTMP URL in Settings or `.env`.
 
 🎉 **Enjoy streaming!**
 
