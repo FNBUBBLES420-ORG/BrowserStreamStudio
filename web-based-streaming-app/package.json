@@ -1,0 +1,24 @@
+{
+  "name": "web-based-streaming-app",
+  "version": "1.0.0",
+  "private": true,
+  "main": "main/main.js",
+  "workspaces": [
+    "main/frontend",
+    "main/backend",
+    "main"
+  ],
+  "scripts": {
+    "start": "electron .",
+    "dev": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\" \"npm run dev --workspace=main\"",
+    "build": "npm run build --workspace=frontend && npm run build --workspace=backend && npm run build --workspace=main"
+  },
+  "dependencies": {
+    "detect-port": "^2.1.0",
+    "lowdb": "^3.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "electron": "^40.1.0"
+  }
+}
