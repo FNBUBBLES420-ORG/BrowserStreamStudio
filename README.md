@@ -1,3 +1,16 @@
+<p align="center">
+   <img src="https://img.shields.io/badge/Node.js-18%2B-brightgreen" alt="Node.js 18+" />
+   <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Mac%20%7C%20Linux-blue" alt="Platform" />
+   <img src="https://img.shields.io/badge/TypeScript-4.9%2B-3178c6?logo=typescript&logoColor=white" alt="TypeScript" />
+   <img src="https://img.shields.io/badge/React-19.2%2B-61dafb?logo=react&logoColor=black" alt="React" />
+   <img src="https://img.shields.io/badge/Electron-27%2B-47848F?logo=electron&logoColor=white" alt="Electron" />
+   <img src="https://img.shields.io/badge/Security-Input%20Sanitization%2C%20Sandboxing-green" alt="Security" />
+   <img src="https://img.shields.io/badge/PRs-welcome-blue" alt="PRs Welcome" />
+   <img src="https://img.shields.io/badge/Made%20with-%E2%9D%A4-red" alt="Made with Love" />
+</p>
+
+- > © 2026 FNBubbles420 Org — Licensed under GPLv3
+
 # BrowserStream Studio
 
 BrowserStream Studio is a secure, local-first, web-based streaming application inspired by OBS. It supports multi-platform streaming (Twitch, YouTube, Kick), a live video preview, a plugin system, and strong security by default. All user data and plugins are stored locally.
