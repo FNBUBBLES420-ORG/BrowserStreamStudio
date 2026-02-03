@@ -32,7 +32,7 @@ Happy streaming!
 
 
 # TODO's
-
+- bugs there might be bugs.
 - create and develop `Plugins` that will help the streamer.
 - add more streaming platforms.
 - add more buttons for helpful features.
