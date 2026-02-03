@@ -29,7 +29,13 @@ Happy streaming!
 
 
 
-- create and develop `Plugins` that will help the streamer
-- add more streaming platforms
-- add more buttons for helpful features
-- add `Accessibility Features`
+
+
+# TODO's
+
+- create and develop `Plugins` that will help the streamer.
+- add more streaming platforms.
+- add more buttons for helpful features.
+- add `Accessibility Features`.
+- make easier for end users to download and install the application.
+- support for `exe` or `installer` - `windows`, `mac os`, `linux`..
