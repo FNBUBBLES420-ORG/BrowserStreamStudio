@@ -10,6 +10,8 @@ const rateLimit = require('express-rate-limit');
 const passport = require('passport');
 const TwitchStrategy = require('passport-twitch-new').Strategy;
 const YouTubeStrategy = require('passport-youtube-v3').Strategy;
+const csurf = require('csurf');
+const cookieParser = require('cookie-parser');
 const { nanoid } = require('nanoid');
 const OAuth2Strategy = require('passport-oauth2');
 const sanitizeHtml = require('sanitize-html');
@@ -35,6 +37,7 @@ const dbReady = (async function initDb() {
 app.use(helmet());
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 app.use(session({
   secret: process.env.SESSION_SECRET || nanoid(),
@@ -47,6 +50,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(csurf({ cookie: true }));
 
 // --- All route definitions must be after this point ---
 
