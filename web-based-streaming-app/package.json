@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "detect-port": "^2.1.0",
+    "esbuild": "^0.25.12",
     "lowdb": "^3.0.0",
     "passport-oauth2": "^1.6.1"
   },
