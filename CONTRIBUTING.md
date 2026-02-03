@@ -26,3 +26,10 @@ If you have questions, open an issue or join our discussions tab.
 ---
 
 Happy streaming!
+
+
+
+- create and develop `Plugins` that will help the streamer
+- add more streaming platforms
+- add more buttons for helpful features
+- add `Accessibility Features`
