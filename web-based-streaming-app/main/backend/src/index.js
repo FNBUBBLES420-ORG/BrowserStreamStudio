@@ -13,6 +13,7 @@ const YouTubeStrategy = require('passport-youtube-v3').Strategy;
 const { nanoid } = require('nanoid');
 const OAuth2Strategy = require('passport-oauth2');
 const sanitizeHtml = require('sanitize-html');
+const csrf = require('lusca').csrf;
 
 const { Low } = require('lowdb');
 const { JSONFile } = require('lowdb/node');
@@ -37,10 +38,27 @@ app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 app.use(session({ secret: process.env.SESSION_SECRET || nanoid(), resave: false, saveUninitialized: false }));
+
+// CSRF protection: apply to state-changing requests
+const csrfProtection = (req, res, next) => {
+  // Allow safe methods without CSRF token
+  const method = req.method && req.method.toUpperCase();
+  if (method === 'GET' || method === 'HEAD' || method === 'OPTIONS') {
+    return next();
+  }
+  return csrf()(req, res, next);
+};
+app.use(csrfProtection);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 // --- All route definitions must be after this point ---
+
+// Endpoint to retrieve CSRF token for client applications
+app.get('/api/csrf-token', csrf(), (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
 
 // User settings API (per user, local DB)
 app.post('/api/user/settings', (req, res) => {
