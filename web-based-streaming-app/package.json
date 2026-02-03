@@ -15,10 +15,12 @@
   },
   "dependencies": {
     "detect-port": "^2.1.0",
-    "lowdb": "^3.0.0"
+    "lowdb": "^3.0.0",
+    "passport-oauth2": "^1.6.1"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
-    "electron": "^40.1.0"
+    "electron": "^40.1.0",
+    "electron-builder": "^26.7.0"
   }
 }
