@@ -13,7 +13,7 @@
 
 - > © 2026 FNBubbles420 Org — Licensed under GPLv3
 
-> # BETA VERSION 0.1
+> # BETA VERSION 0.0.10
 
 # 🎥 BrowserStream Studio
 
