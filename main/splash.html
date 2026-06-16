@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrowserStream Studio</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #081018;
+      --panel: #102131;
+      --accent: #5dd39e;
+      --accent-2: #f4a261;
+      --text: #f6f7fb;
+      --muted: rgba(246, 247, 251, 0.72);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: "Segoe UI Variable Display", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(93, 211, 158, 0.20), transparent 34%),
+        linear-gradient(180deg, var(--bg) 0%, #102131 100%);
+      color: var(--text);
+    }
+
+    .shell {
+      width: min(360px, calc(100vw - 32px));
+      padding: 28px;
+      border-radius: 28px;
+      background: rgba(16, 33, 49, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.36);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .pulse {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 rgba(93, 211, 158, 0.9);
+      animation: pulse 1.8s infinite;
+    }
+
+    .title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .subtitle {
+      margin: 6px 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .progress {
+      position: relative;
+      overflow: hidden;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      margin-bottom: 16px;
+    }
+
+    .progress::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 42%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      animation: slide 1.6s ease-in-out infinite;
+    }
+
+    .status {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    @keyframes slide {
+      0% { transform: translateX(-110%); }
+      50% { transform: translateX(140%); }
+      100% { transform: translateX(240%); }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(93, 211, 158, 0.5); }
+      70% { box-shadow: 0 0 0 14px rgba(93, 211, 158, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(93, 211, 158, 0); }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="brand">
+      <div class="pulse"></div>
+      <div>
+        <h1 class="title">BrowserStream Studio</h1>
+        <div class="status">
+          <span>Preparing desktop workspace</span>
+        </div>
+      </div>
+    </div>
+    <p class="subtitle">
+      Loading your local streaming tools, reconnecting app services, and getting the studio ready.
+    </p>
+    <div class="progress"></div>
+    <div class="status">
+      <span>Starting app</span>
+      <span>Please wait</span>
+    </div>
+  </main>
+</body>
+</html>

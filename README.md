@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 <p align="center">
    <img src="https://img.shields.io/badge/Node.js-18%2B-brightgreen" alt="Node.js 18+" />
@@ -249,3 +250,128 @@ This will start the backend, frontend, and Electron app together (using concurre
 - OAuth for Twitch, YouTube, and Kick is set up for local development
 - Security and sanitization are enabled by default
 
+=======
+# BrowserStream Studio
+
+BrowserStream Studio is a desktop-first streaming control room built with Electron, React, and Node.js. It is designed to help end users connect streaming accounts, manage scenes and stream settings, preview their setup locally, and package everything into a Windows installer.
+
+## What it does
+
+- Desktop app powered by Electron
+- Local backend for account setup, streaming tools, and runtime APIs
+- React frontend for dashboard, stream controls, settings, scenes, scheduler, recordings, and plugins
+- Windows packaging with Electron Builder
+- Bundled `ffmpeg.exe` and `ffprobe.exe` for Windows releases
+
+## Project structure
+
+```text
+build/
+  ffmpeg.exe
+  ffprobe.exe
+  installer.nsh
+main/
+  backend/   Node backend
+  frontend/  React + Vite frontend
+  main.js    Electron main process
+scripts/
+  start-electron.js
+```
+
+## Requirements
+
+- Node.js 18+
+- npm 9+
+- Windows is the primary desktop packaging target
+
+## Install
+
+From the project root:
+
+```bash
+npm install
+```
+
+This repository uses npm workspaces, so the root install handles the frontend and backend dependencies too.
+
+## Development
+
+Run the full live development stack:
+
+```bash
+npm run dev
+```
+
+This starts:
+
+- the backend in workspace dev mode
+- the Vite frontend dev server
+- Electron pointed at the live frontend
+
+## Local desktop run
+
+Run the built frontend with Electron and the backend together:
+
+```bash
+npm start
+```
+
+This is the best command for checking how the desktop app behaves outside the live Vite dev server.
+
+## Build commands
+
+Prepare the app bundle:
+
+```bash
+npm run prepare
+```
+
+Create an unpacked Electron output:
+
+```bash
+npm run pack
+```
+
+Create the Windows installer:
+
+```bash
+npm run dist:win
+```
+
+`npm run dist` is also available and points to the same Windows NSIS build flow.
+
+## Windows installer behavior
+
+- Installer type: NSIS
+- Install mode: per-user
+- Custom installer include: [installer.nsh](C:/Users/frost/OneDrive/Desktop/web-based-streaming-app/build/installer.nsh)
+- Target install folder: `%APPDATA%\BrowserStream Studio`
+
+The packaged app also includes:
+
+- `build/ffmpeg.exe`
+- `build/ffprobe.exe`
+
+These are copied into the installed app resources so end users do not need to set up FFmpeg manually for the Windows EXE flow.
+
+## Environment and user setup
+
+Provider credentials and stream-related setup are handled inside the app UI as much as possible. For local development, backend environment values can still be placed in:
+
+```text
+main/backend/.env
+```
+
+Typical examples include provider client IDs, client secrets, and local callback configuration.
+
+## Security notes
+
+- Electron renderer isolation is enabled
+- Desktop runtime APIs are exposed through preload rather than direct Node access in the renderer
+- Input sanitization and safer runtime handling have been added across the app
+- Production frontend builds include a stricter Content Security Policy
+
+## Release notes
+
+For the Windows EXE release workflow, see [release.md](C:/Users/frost/OneDrive/Desktop/web-based-streaming-app/release.md).
+>>>>>>> 30b79c2 (Initial commit)

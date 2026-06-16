@@ -5,6 +5,10 @@ node_modules/
 
 # Build output
 dist/
+<<<<<<< HEAD
+=======
+frontend/dist/
+>>>>>>> 30b79c2 (Initial commit)
 build/
 out/
 release/
@@ -12,6 +16,10 @@ release/
 .parcel-cache/
 .svelte-kit/
 storybook-static/
+<<<<<<< HEAD
+=======
+.vite/
+>>>>>>> 30b79c2 (Initial commit)
 
 # Logs
 npm-debug.log*
@@ -46,6 +54,12 @@ Desktop.ini
 # Electron
 *.asar
 
+<<<<<<< HEAD
+=======
+# TypeScript cache/artifacts
+*.tsbuildinfo
+
+>>>>>>> 30b79c2 (Initial commit)
 # Coverage
 coverage/
 
@@ -65,6 +79,12 @@ pnpm-lock.yaml
 tmp/
 temp/
 
+<<<<<<< HEAD
+=======
+# Local app data
+main/backend/db.json
+
+>>>>>>> 30b79c2 (Initial commit)
 # npm & Yarn cache
 .npm/
 .yarn/

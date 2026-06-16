@@ -1,0 +1,14 @@
+html, body, #root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI Variable Display', 'Segoe UI', sans-serif;
+  background: #160f1e;
+  color: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}

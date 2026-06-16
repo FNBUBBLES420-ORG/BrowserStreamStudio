@@ -1,0 +1,85 @@
+{
+  "name": "web-based-streaming-app",
+  "version": "0.1.1",
+  "description": "Desktop-first local streaming studio with Electron, React, and provider integrations.",
+  "author": "FNBubbles420 Org",
+  "private": true,
+  "main": "main/main.js",
+  "workspaces": [
+    "main/frontend",
+    "main/backend"
+  ],
+  "scripts": {
+    "start": "npm run build --workspace=frontend && concurrently --kill-others --success first \"npm run start --workspace=backend\" \"node scripts/start-electron.js\"",
+    "dev": "concurrently --kill-others --success last \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\" \"node scripts/start-electron.js --dev\"",
+    "prepare": "npm run build",
+    "build": "npm run build --workspace=frontend",
+    "electron": "electron .",
+    "desktop": "npm run build && electron .",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder --win nsis",
+    "dist:win": "npm run build && electron-builder --win nsis"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "detect-port": "^2.1.0",
+    "dotenv": "^17.2.3",
+    "esbuild": "^0.28.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
+    "express-session": "^1.19.0",
+    "helmet": "^8.2.0",
+    "jsonwebtoken": "^9.0.3",
+    "lowdb": "^7.0.1",
+    "nanoid": "^5.1.11",
+    "passport": "^0.7.0",
+    "passport-oauth2": "^1.6.1",
+    "passport-twitch-new": "^0.0.3",
+    "sanitize-html": "^2.17.5"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3",
+    "electron": "^42.4.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.browserstream.studio",
+    "productName": "BrowserStream Studio",
+    "files": [
+      "main/**/*",
+      "scripts/**/*",
+      "package.json",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "build"
+    },
+    "extraResources": [
+      {
+        "from": "build/ffmpeg.exe",
+        "to": "bin/ffmpeg.exe"
+      },
+      {
+        "from": "build/ffprobe.exe",
+        "to": "bin/ffprobe.exe"
+      }
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": true,
+      "include": "build/installer.nsh"
+    }
+  }
+}
