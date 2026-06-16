@@ -1,290 +1,39 @@
-<<<<<<< HEAD
-
-<p align="center">
-   <img src="https://img.shields.io/badge/Node.js-18%2B-brightgreen" alt="Node.js 18+" />
-   <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Mac%20%7C%20Linux-blue" alt="Platform" />
-   <img src="https://img.shields.io/badge/TypeScript-4.9%2B-3178c6?logo=typescript&logoColor=white" alt="TypeScript" />
-   <img src="https://img.shields.io/badge/React-19.2%2B-61dafb?logo=react&logoColor=black" alt="React" />
-   <img src="https://img.shields.io/badge/Electron-42%2B-47848F?logo=electron&logoColor=white" alt="Electron" />
-   <img src="https://img.shields.io/badge/Security-Input%20Sanitization%2C%20Sandboxing-green" alt="Security" />
-   <img src="https://img.shields.io/badge/PRs-welcome-blue" alt="PRs Welcome" />
-   <img src="https://img.shields.io/badge/Made%20with-%E2%9D%A4-red" alt="Made with Love" />
-</p>
-
-
-- > © 2026 FNBubbles420 Org — Licensed under GPLv3
-
-> # BETA VERSION 0.0.10
-
-# 🎥 BrowserStream Studio
-
-BrowserStream Studio is a secure, local-first, web-based streaming application inspired by OBS. It supports multi-platform streaming (Twitch, YouTube, Kick), a live video preview, a plugin system, and strong security by default. All user data and plugins are stored locally.
-
----
-
-## 🚀 Features
-- Start/stop streaming to any RTMP endpoint (Twitch, YouTube, Kick, or custom)
-- Live video preview in the browser
-- Secure plugin system (install, remove, run plugins with sandboxing)
-- User-friendly UI for stream settings and account management
-- OAuth login/connect for Twitch, YouTube, and Kick
-- Local storage per user (no cloud)
-- Security: input sanitization, session security, rate limiting, plugin sandboxing
-
----
-
-
-
-## 👩‍💻 For End Users
-
-
-🎉 **Welcome to BrowserStream Studio!**
-
-This app lets you stream to **Twitch**, **YouTube**, **Kick**, or any RTMP server, right from your desktop—no cloud, no accounts required. **All your data stays on your computer.**
-
-
-
-### 🧰 What You Need
-- 💻 A computer with **Windows, Mac, or Linux**
-- 🟢 Node.js 18 or newer ([Download here](https://nodejs.org/))
-- 🐙 (Optional) Git if you want to get updates or contribute
-- 🎬 **FFmpeg** must be installed and available in your system PATH (required for streaming)
-
-
-#### FFmpeg Installation
-- 🪟 **Windows Users:**
-   1. [Download FFmpeg](https://ffmpeg.org/download.html) and extract the ZIP file.
-   2. Copy the `bin` folder path (e.g., `C:\ffmpeg\bin`).
-   3. Press <kbd>Win</kbd> + <kbd>R</kbd>, type `sysdm.cpl`, and press Enter.
-   4. Go to the **Advanced** tab and click **Environment Variables**.
-   5. Under **System variables**, select `Path` and click **Edit**.
-   6. Click **New** and paste the `bin` folder path. Click **OK** to save.
-   7. Open a new terminal and run `ffmpeg -version` to check it works.
-- 🍏 **Mac Users:**
-   - Install via Homebrew: `brew install ffmpeg`
-   - Homebrew automatically adds FFmpeg to your PATH.
-- 🐧 **Linux Users:**
-   - Install via your package manager, e.g. `sudo apt install ffmpeg` (Debian/Ubuntu)
-   - Most package managers add FFmpeg to your PATH automatically.
-
-> ⚠️ **Note:** Electron, Node.js, and all dependencies are cross-platform. Just make sure FFmpeg is installed and available in your PATH for your OS.
-
-
-### 🚦 Getting Started (Step-by-Step)
-
-1️⃣ **Download or Clone the App**
-   - 🐙 If you know Git: `git clone <repo-url>` and open the folder
-   - 📦 Or, download the ZIP from GitHub and unzip it
-
-2️⃣ **Install Everything**
-   - 🖥️ Open a terminal/command prompt in the app folder
-   - Run:
-     ```bash
-     npm install
-     cd main/backend && npm install
-     cd ../frontend && npm install
-     cd ../../main && npm install
-     ```
-
-3️⃣ **Set Up Streaming Accounts** *(Optional, but recommended)*
-   - 📝 Open `main/backend/.env` in a text editor
-   - 🔑 Add your Twitch, YouTube, and Kick client IDs/secrets (see the wiki or ask for help if unsure)
-   - 🌐 Set `RTMP_URL` to your stream server (for Twitch, see your dashboard for the right URL)
----
-
-- >💡 **Tip for Windows Users:**
-To open a terminal in the correct folder easily, open your project folder in File Explorer, click the URL bar, type `cmd`, and press Enter. This will open Command Prompt in the right location. Then just run the app as described below!
-
-## 4️⃣ **Run the App**
-   - In the app folder, open a terminal or command prompt and run:
-     ```bash
-     npm run dev
-     ```
-   - ⏳ Wait a few moments. The app will automatically open in a desktop window (Electron). If it doesn't, check your terminal for errors.
-   - 🌍 You can also open your web browser and go to [http://localhost:3000](http://localhost:3000) to use the app in your browser.
-   - ⚠️ **Leave the terminal open while using the app!** Closing it will stop the app.
-   - 🛠️ For more advanced options (like running backend/frontend/Electron separately), see the "For Developers" section below.
-
-
-### 🕹️ Using BrowserStream Studio
-1️⃣ **Open the App**
-   - 🖥️ The app will open in a desktop window (Electron)
-   - 🌍 Or, visit [http://localhost:3000](http://localhost:3000) in your browser
-2️⃣ **Preview Your Camera**
-   - 🎥 Go to the **Stream** page to see your live camera and mic
-3️⃣ **Connect Your Streaming Accounts**
-   - ⚙️ Go to **Settings**
-   - 🔗 Click "Connect Twitch", "Connect YouTube", or "Connect Kick" and follow the prompts
-4️⃣ **Set Your Stream Settings**
-   - 🎚️ In **Settings**, choose your bitrate, resolution, and output type (RTMP or HLS)
-5️⃣ **Start Streaming!**
-   - 🚀 Go to the **Stream** page and click **Start Streaming**
-   - 🛑 To stop, click **Stop Streaming**
-6️⃣ **Try Plugins**
-   - 🧩 Go to the **Plugins** page to install, run, or remove plugins
-
-
-### 💡 Tips & Troubleshooting
-- > 🗂️ **All your data stays on your computer.** No cloud, no tracking.
-> 
-- > 🕳️ **If you see a blank window:** Make sure you ran `npm run dev` and left the terminal open.
-> 
-- > 🆘 **Need help?** Open an issue on GitHub or ask a friend who knows Node.js.
-> https://discord.gg/zQbJJgwbUv
-- > 🌐 **Want to stream to a different platform?** Just set the correct RTMP URL in Settings or `.env`.
-
-🎉 **Enjoy streaming!**
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! To make BrowserStream Studio better:
-
-### How to Contribute
-1. **Fork the repo and clone your fork**
-2. **Create a new branch** for your feature or fix
-3. **Make your changes** (see code structure below)
-4. **Test locally** (see Quick Start above)
-5. **Submit a pull request** with a clear description
-
-### Code Structure
-- `main/frontend/` — React (Vite, TypeScript, MUI) UI
-- `main/backend/` — Node.js/Express backend, plugin sandbox, OAuth, ffmpeg
-- `main/` — Electron main process
-- `db.json` — Local user/plugin data (auto-created)
-
-### Guidelines
-- Keep security in mind: sanitize all user input, never run untrusted code outside the plugin sandbox
-- Write clear, user-friendly UI/UX
-- Test your changes before submitting
-- Document new features in this README
-
----
-
-## 🔒 Security
-- All user data and plugins are stored locally
-- Plugins run in a Node.js VM sandbox with no access to the system
-- Input/output is sanitized throughout
-- Sessions, rate limiting, and CORS are enabled by default
-
----
-
-## 📢 Feedback & Support
-- Found a bug? Open an issue or pull request
-- Want a new feature? Open an issue or contribute!
-
----
-
-## Maintainers
-- [FNBUBBLES420-ORG](https://github.com/FNBUBBLES420-ORG/BrowserStreamStudio)
-
----
-
-Happy streaming and hacking!
-
-## Prerequisites
-- Node.js 18+ and npm
-- (Optional) Yarn if you prefer
-- (Optional) Git for version control
-
-## Install Dependencies
-
-From the project root:
-
-
-```
-npm install
-cd main/backend
-npm install
-cd ../frontend
-npm install
-cd ../../main
-npm install
-```
-
-## Environment Variables
-
-Edit `backend/.env` and set your Twitch, YouTube, and Kick client IDs and secrets.
-
-## Development
-
-
-### Option 1: Manual (Recommended for Debugging)
-1. **Start Backend:**
-   ```
-   cd main/backend
-   npm run dev
-   ```
-2. **Start Frontend (in a new terminal):**
-   ```
-   cd main/frontend
-   npm run dev
-   ```
-   > ⚠️ **Leave this terminal running!** The Electron app needs the frontend dev server to be running at http://localhost:3000.
-3. **Start Electron App (in another terminal, from project root):**
-   ```
-   npm start
-   ```
-   > Electron will open and load the running frontend. If you see a blank window, make sure the frontend dev server is running.
-
-### Option 2: All-in-One (Quick Start)
-From the project root, run:
-```
-npm run dev
-```
-This will start the backend, frontend, and Electron app together (using concurrently). Useful for quick development, but you may need to scroll up to see all logs.
-
-## User Interface
-
-- The app now includes a user-friendly Settings page for adjusting stream settings (bitrate, resolution, output) and managing account connections (Twitch, YouTube, Kick).
-- Access the Settings page from the Home screen or via the /settings route.
-
-- The backend runs on http://localhost:4000
-- The frontend runs on http://localhost:3000
-- Electron loads the frontend and connects to the backend
-
-## Usage Notes
-- Local storage is per user (per machine)
-- Plugins and user data are stored locally
-- OAuth for Twitch, YouTube, and Kick is set up for local development
-- Security and sanitization are enabled by default
-
-=======
 # BrowserStream Studio
 
-BrowserStream Studio is a desktop-first streaming control room built with Electron, React, and Node.js. It is designed to help end users connect streaming accounts, manage scenes and stream settings, preview their setup locally, and package everything into a Windows installer.
+<p align="center">
+   <img src="https://img.shields.io/badge/Electron-42-47848F?logo=electron&logoColor=white" alt="Electron 42" />
+   <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black" alt="React 19" />
+   <img src="https://img.shields.io/badge/TypeScript-Vite-3178C6?logo=typescript&logoColor=white" alt="TypeScript and Vite" />
+   <img src="https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white" alt="Node.js 18+" />
+   <img src="https://img.shields.io/badge/Desktop-Windows%20first-FF7A59" alt="Windows first" />
+   <img src="https://img.shields.io/badge/License-GPLv3-blue" alt="GPLv3" />
+</p>
 
-## What it does
+🎥 BrowserStream Studio is a desktop-first streaming control room built with Electron, React, and Node.js. It bundles a local backend with a desktop shell so you can set up stream destinations, connect creator accounts, preview your camera or screen, manage scenes, schedule go-live sessions, review recordings, and run sandboxed plugins from one place.
 
-- Desktop app powered by Electron
-- Local backend for account setup, streaming tools, and runtime APIs
-- React frontend for dashboard, stream controls, settings, scenes, scheduler, recordings, and plugins
-- Windows packaging with Electron Builder
-- Bundled `ffmpeg.exe` and `ffprobe.exe` for Windows releases
+## ✨ What You Can Do
 
-## Project structure
+- 🖥️ Launch a desktop streaming workspace with a built-in local backend
+- 🧙 Walk through first-time setup with the built-in setup wizard
+- 🎬 Preview your camera or share your screen before going live
+- 🚀 Start and stop streams while watching stream health and runtime status
+- 🎭 Build and manage scenes with webcam, screen, image, text, window, and browser sources
+- 🗓️ Schedule a stream with countdown and auto-apply options
+- 💾 Browse local recordings from inside the app
+- 🔐 Connect Twitch, YouTube, and Kick accounts with OAuth flows
+- ⚙️ Tune bitrate, resolution, orientation, devices, and extra output destinations
+- 🧩 Install and run sandboxed local plugins
+- 📦 Export, import, or reset your local app data
 
-```text
-build/
-  ffmpeg.exe
-  ffprobe.exe
-  installer.nsh
-main/
-  backend/   Node backend
-  frontend/  React + Vite frontend
-  main.js    Electron main process
-scripts/
-  start-electron.js
-```
+## 🚀 Quick Start
 
-## Requirements
+### What you need
 
 - Node.js 18+
 - npm 9+
-- Windows is the primary desktop packaging target
+- FFmpeg available on your machine for live encoding and stream start
 
-## Install
+### Install
 
 From the project root:
 
@@ -292,11 +41,9 @@ From the project root:
 npm install
 ```
 
-This repository uses npm workspaces, so the root install handles the frontend and backend dependencies too.
+The root workspace install also covers the frontend and backend workspaces.
 
-## Development
-
-Run the full live development stack:
+### Start the app in development
 
 ```bash
 npm run dev
@@ -304,74 +51,145 @@ npm run dev
 
 This starts:
 
-- the backend in workspace dev mode
-- the Vite frontend dev server
-- Electron pointed at the live frontend
+- the local backend
+- the Vite frontend
+- the Electron desktop shell
 
-## Local desktop run
+Default local addresses:
 
-Run the built frontend with Electron and the backend together:
+- frontend: `http://localhost:3000`
+- backend: `http://localhost:4000`
+
+### Run the built desktop flow
 
 ```bash
 npm start
 ```
 
-This is the best command for checking how the desktop app behaves outside the live Vite dev server.
+This builds the frontend, starts the backend, and launches Electron.
 
-## Build commands
+## 🧭 Main Areas In The App
 
-Prepare the app bundle:
+- 🏠 Dashboard: setup progress, notifications, provider status, and session overview
+- 🧙 Wizard: first-run guidance for FFmpeg, provider credentials, account connection, and stream target setup
+- 🎥 Stream: camera preview, screen preview, start and stop controls, chat tools, and highlight markers
+- 🎭 Scenes: manage scenes and their sources
+- 🗓️ Schedule: configure go-live countdowns and schedule details
+- 💾 Recordings: browse locally stored recordings
+- 👤 Accounts: connect supported providers
+- ⚙️ Settings: stream preferences, devices, destinations, and desktop preferences
+- 🧩 Plugins: install, view, execute, and remove local plugins
+
+## 🔗 Supported Provider Flow
+
+BrowserStream Studio currently supports Twitch, YouTube, and Kick setup.
+
+Typical flow:
+
+1. Open `Settings`.
+2. Add the provider client ID and client secret.
+3. Save your settings.
+4. Open `Accounts` and finish the connection flow.
+
+You can also stream to a custom RTMP target without connecting a provider account.
+
+## 🛠️ Build And Package
+
+Build the frontend bundle:
 
 ```bash
-npm run prepare
+npm run build
 ```
 
-Create an unpacked Electron output:
+Open the app from a local build:
+
+```bash
+npm run desktop
+```
+
+Create an unpacked Electron build:
 
 ```bash
 npm run pack
 ```
 
-Create the Windows installer:
+Create a Windows installer:
 
 ```bash
 npm run dist:win
 ```
 
-`npm run dist` is also available and points to the same Windows NSIS build flow.
-
-## Windows installer behavior
-
-- Installer type: NSIS
-- Install mode: per-user
-- Custom installer include: [installer.nsh](C:/Users/frost/OneDrive/Desktop/web-based-streaming-app/build/installer.nsh)
-- Target install folder: `%APPDATA%\BrowserStream Studio`
-
-The packaged app also includes:
-
-- `build/ffmpeg.exe`
-- `build/ffprobe.exe`
-
-These are copied into the installed app resources so end users do not need to set up FFmpeg manually for the Windows EXE flow.
-
-## Environment and user setup
-
-Provider credentials and stream-related setup are handled inside the app UI as much as possible. For local development, backend environment values can still be placed in:
+## 📁 Project Structure
 
 ```text
-main/backend/.env
+build/
+   installer.nsh
+main/
+   backend/
+      src/
+   frontend/
+      src/
+   main.js
+   preload.js
+   splash.html
+scripts/
+   start-electron.js
+package.json
 ```
 
-Typical examples include provider client IDs, client secrets, and local callback configuration.
+## 🧠 Local Data And Storage
 
-## Security notes
+The app stores its working data locally.
 
-- Electron renderer isolation is enabled
-- Desktop runtime APIs are exposed through preload rather than direct Node access in the renderer
-- Input sanitization and safer runtime handling have been added across the app
-- Production frontend builds include a stricter Content Security Policy
+This includes:
 
-## Release notes
+- stream and desktop preferences
+- provider connection metadata
+- scenes and scene sources
+- scheduler state
+- chat history and moderation shortcuts
+- studio notes, notifications, analytics, and markers
+- plugin definitions
 
-For the Windows EXE release workflow, see [release.md](C:/Users/frost/OneDrive/Desktop/web-based-streaming-app/release.md).
->>>>>>> 30b79c2 (Initial commit)
+In development, the backend uses local files under `main/backend` unless overridden. In packaged desktop mode, Electron points storage at the app user-data directory.
+
+Ignored local runtime data:
+
+- `main/backend/db.json`
+
+## 🔒 Security Snapshot
+
+- Electron uses `contextIsolation: true`
+- Electron disables renderer `nodeIntegration`
+- Renderer desktop access goes through the preload bridge
+- Backend input is sanitized before persistence
+- Helmet, CORS, sessions, and rate limiting are enabled
+- Production frontend builds include a Content Security Policy
+- Plugin execution is sandboxed and time-limited
+
+See `SECURITY.md` for full reporting guidance and scope.
+
+## 🧩 Plugin Notes
+
+Plugins are stored locally and run through a restricted VM-based sandbox. Common escape paths such as `require`, `eval`, `Function`, dynamic import, direct network calls, and access to Node globals are blocked.
+
+This plugin system is for controlled in-app extensions, not unrestricted third-party code execution.
+
+## 🏗️ Tech Stack
+
+- Electron 42
+- React 19
+- Vite
+- TypeScript
+- Express 5
+- LowDB
+- Passport OAuth strategies
+- Electron Builder
+
+## 🤝 Contributing
+
+See `CONTRIBUTING.md` for contribution guidelines.
+
+## 📄 License
+
+This repository currently includes the GNU GPL v3 license text in `LICENSE`.
