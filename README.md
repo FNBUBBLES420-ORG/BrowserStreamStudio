@@ -19,7 +19,7 @@ BrowserStream Studio is a Windows desktop app for managing your stream setup in 
 
 To install BrowserStream Studio on Windows:
 
-1. Download `BrowserStream Studio Setup 0.1.3.exe`.
+1. Download `BrowserStream Studio Setup 0.1.4.exe`.
 2. Double-click the file to open the installer.
 3. Follow the setup steps on screen.
 4. Open BrowserStream Studio from your desktop or Start menu when setup is finished.
