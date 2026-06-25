@@ -45,7 +45,7 @@ npm run pack
 
 ### 3. Create the Windows installer EXE
 
-This creates the installer you can share:
+This creates the installer you can share: `BrowserStream Studio Setup 0.1.3.exe`
 
 ```bash
 npm run dist:win

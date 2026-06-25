@@ -23,6 +23,7 @@ const { JSONFile } = require('lowdb/node');
 const app = express();
 let server = null;
 const PORT = Number(process.env.PORT || 4000);
+const HOST = process.env.HOST || '127.0.0.1';
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 const BACKEND_URL = process.env.BACKEND_URL || `http://localhost:${PORT}`;
 const storageRoot = process.env.BROWSERSTREAM_USER_DATA || path.join(__dirname, '..');
@@ -307,7 +308,11 @@ function sanitizeBitrate(value, fallback = 4500) {
 
 function sanitizeOutputPath(value, fallback = '') {
   const cleaned = sanitizePlainText(value, 260);
-  return cleaned || fallback;
+  if (!cleaned) {
+    return fallback;
+  }
+
+  return path.isAbsolute(cleaned) ? path.normalize(cleaned) : fallback;
 }
 
 function sanitizeStreamUrl(value, fallback = '') {
@@ -449,11 +454,58 @@ function getPublicProvider(provider) {
 
   return {
     clientId: getConfiguredCredential(provider, 'clientId'),
-    clientSecret: config.clientSecret,
+    clientSecret: '',
     connected: Boolean(config.connected),
     connectedAt: config.connectedAt,
     profile: config.profile
   };
+}
+
+function getSanitizedExportData() {
+  const exported = cloneDefaultData();
+  exported.users = Array.isArray(db.data.users) ? [...db.data.users] : [];
+  exported.plugins = Array.isArray(db.data.plugins) ? [...db.data.plugins] : [];
+  exported.activityLog = Array.isArray(db.data.activityLog) ? [...db.data.activityLog] : [];
+  exported.scenes = Array.isArray(db.data.scenes) ? [...db.data.scenes] : [];
+  exported.scheduler = { ...(db.data.scheduler || exported.scheduler) };
+  exported.wizard = { ...(db.data.wizard || exported.wizard) };
+  exported.chat = { ...(db.data.chat || exported.chat) };
+  exported.studio = { ...(db.data.studio || exported.studio) };
+  exported.appConfig = {
+    ...exported.appConfig,
+    ...(db.data.appConfig || {}),
+    stream: {
+      ...exported.appConfig.stream,
+      ...(db.data.appConfig?.stream || {}),
+      streamKey: '',
+      destinations: (db.data.appConfig?.stream?.destinations || []).map((destination) => ({
+        ...destination,
+        streamKey: ''
+      }))
+    },
+    providers: {
+      twitch: {
+        ...normalizeProvider('twitch', db.data.appConfig?.providers?.twitch),
+        clientSecret: '',
+        accessToken: '',
+        refreshToken: ''
+      },
+      youtube: {
+        ...normalizeProvider('youtube', db.data.appConfig?.providers?.youtube),
+        clientSecret: '',
+        accessToken: '',
+        refreshToken: ''
+      },
+      kick: {
+        ...normalizeProvider('kick', db.data.appConfig?.providers?.kick),
+        clientSecret: '',
+        accessToken: '',
+        refreshToken: ''
+      }
+    }
+  };
+
+  return exported;
 }
 
 function getPublicConfig() {
@@ -882,7 +934,28 @@ function buildHealthSummary() {
 }
 
 function getRecordingRoot() {
-  return db.data.appConfig.stream.outputPath || recordingsRoot;
+  return sanitizeOutputPath(db.data.appConfig.stream.outputPath, recordingsRoot);
+}
+
+function resolvePathInsideRoot(root, targetName) {
+  const normalizedRoot = path.resolve(root);
+  const candidate = path.resolve(normalizedRoot, targetName);
+  const relative = path.relative(normalizedRoot, candidate);
+
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error('Path escapes the allowed directory.');
+  }
+
+  return candidate;
+}
+
+function sanitizeRecordingName(value) {
+  const cleaned = sanitizePlainText(value, 160);
+  if (!cleaned) {
+    return '';
+  }
+
+  return path.basename(cleaned) === cleaned ? cleaned : '';
 }
 
 function listRecordings() {
@@ -1059,15 +1132,23 @@ app.get('/api/recordings', async (req, res) => {
 
 app.patch('/api/recordings/:name', async (req, res) => {
   await ensureDb();
-  const currentName = sanitizePlainText(req.params.name, 160);
-  const nextName = sanitizePlainText(req.body?.nextName || '', 160);
+  const currentName = sanitizeRecordingName(req.params.name);
+  const nextName = sanitizeRecordingName(req.body?.nextName || '');
   if (!currentName || !nextName) {
     return res.status(400).json({ error: 'Recording names are required.' });
   }
 
   const root = getRecordingRoot();
-  const currentPath = path.join(root, currentName);
-  const nextPath = path.join(root, nextName);
+  let currentPath;
+  let nextPath;
+
+  try {
+    currentPath = resolvePathInsideRoot(root, currentName);
+    nextPath = resolvePathInsideRoot(root, nextName);
+  } catch {
+    return res.status(400).json({ error: 'Invalid recording path.' });
+  }
+
   if (!fs.existsSync(currentPath)) {
     return res.status(404).json({ error: 'Recording not found.' });
   }
@@ -1135,7 +1216,7 @@ app.get('/api/app/export', async (req, res) => {
   await ensureDb();
   res.json({
     exportedAt: new Date().toISOString(),
-    data: db.data
+    data: getSanitizedExportData()
   });
 });
 
@@ -1412,7 +1493,7 @@ app.post('/api/stream/start', async (req, res) => {
     ? activeDestinations.map((destination) => `${destination.rtmpUrl.replace(/\/$/, '')}/${destination.streamKey || 'stream'}`)
     : [primaryTarget];
   const targetUrl = output === 'hls'
-    ? path.join(stream.outputPath || recordingsRoot, 'stream.m3u8')
+    ? resolvePathInsideRoot(getRecordingRoot(), 'stream.m3u8')
     : outputTargets.length > 1
       ? outputTargets.join(' | ')
       : outputTargets[0];
@@ -1523,8 +1604,8 @@ async function startServer() {
   await ensureDb();
   refreshStrategies();
   server = await new Promise((resolve) => {
-    const instance = app.listen(PORT, () => {
-      console.log(`Backend running on port ${PORT}`);
+    const instance = app.listen(PORT, HOST, () => {
+      console.log(`Backend running on ${HOST}:${PORT}`);
       resolve(instance);
     });
   });
