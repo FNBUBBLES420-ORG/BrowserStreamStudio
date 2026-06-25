@@ -1,57 +1,94 @@
 # BrowserStream Studio
 
-BrowserStream Studio is a Windows desktop app for managing your stream setup in one place. You can connect accounts, prepare scenes, preview your camera or screen, manage recordings, and control your stream from a single app.
+🎥 BrowserStream Studio is a Windows desktop app built to help creators manage their stream setup from one place. It brings together stream controls, scenes, account connections, recordings, and setup tools so you do not have to jump between multiple apps just to go live.
 
-## What You Can Do
+## ✨ What BrowserStream Studio Does
 
-- Set up your streaming workspace with a guided first-run wizard
-- Preview your camera or screen before going live
-- Start and stop streams while watching stream status
-- Build scenes with webcam, screen, image, text, window, and browser sources
-- Schedule upcoming streams
-- Browse local recordings inside the app
-- Connect Twitch, YouTube, and Kick accounts
-- Adjust bitrate, resolution, devices, and output destinations
-- Install and run local plugins
-- Export, import, or reset your app data
+BrowserStream Studio helps you:
 
-## Windows Installer
+- 🎬 preview your camera or screen before going live
+- 🚀 start and stop streams from one desktop app
+- 🎭 build scenes with webcam, screen, image, text, window, and browser sources
+- 🔗 connect supported streaming providers like Twitch, YouTube, and Kick
+- 🗓️ schedule upcoming streams
+- 💾 browse local recordings
+- ⚙️ manage bitrate, resolution, devices, and output destinations
+- 🧩 install and run local plugins
+- 🛟 export, import, or reset your app data when needed
+
+## 🖥️ Windows Installer
 
 To install BrowserStream Studio on Windows:
 
-1. Download `BrowserStream Studio Setup 0.1.4.exe`.
-2. Double-click the file to open the installer.
-3. Follow the setup steps on screen.
-4. Open BrowserStream Studio from your desktop or Start menu when setup is finished.
+Download the installer from:
+
+[GitHub Releases](https://github.com/FNBUBBLES420-ORG/BrowserStreamStudio/releases)
+
+1. Download `BrowserStream Studio Setup 0.1.4.exe`
+2. Double-click the installer file
+3. Follow the setup steps on screen
+4. Open BrowserStream Studio from your desktop or Start menu
 
 If Windows asks for permission to run the installer, choose `Yes`.
 
-## Main Areas In The App
+## 🚀 How To Use The App
 
-- Dashboard: setup progress, notifications, and account status
-- Wizard: first-time setup guidance
-- Stream: preview and stream controls
-- Scenes: manage scenes and sources
-- Schedule: set up planned streams
-- Recordings: browse saved recordings
-- Accounts: connect supported providers
-- Settings: manage stream, device, and desktop preferences
-- Plugins: install, view, run, and remove plugins
+If you are opening BrowserStream Studio for the first time, this is the easiest flow:
 
-## Supported Provider Flow
+1. Open the app and go through the setup wizard
+2. Open `Settings` and choose your stream quality, devices, and output options
+3. Add your provider details if you want to connect Twitch, YouTube, or Kick
+4. Open `Accounts` and finish the account connection flow
+5. Set your stream title, category, and destination
+6. Preview your camera or screen in the `Stream` area
+7. Start your stream when everything looks ready
+
+You can also use a custom RTMP server if you do not want to connect a provider account.
+
+## 🧭 Main Areas In The App
+
+- 🏠 `Dashboard`
+Shows setup progress, notifications, and account status
+
+- 🧙 `Wizard`
+Helps first-time users get through setup step by step
+
+- 🎥 `Stream`
+Lets you preview video and control when your stream starts or stops
+
+- 🎭 `Scenes`
+Lets you create and manage stream scenes and sources
+
+- 🗓️ `Schedule`
+Lets you prepare upcoming streams in advance
+
+- 💾 `Recordings`
+Lets you browse saved recordings on your device
+
+- 👤 `Accounts`
+Handles provider connections for supported platforms
+
+- ⚙️ `Settings`
+Controls stream quality, devices, preferences, and destinations
+
+- 🧩 `Plugins`
+Lets you install, view, run, and remove local plugins
+
+## 🔗 Supported Provider Flow
 
 BrowserStream Studio currently supports Twitch, YouTube, and Kick.
 
 Typical setup:
 
-1. Open `Settings`.
-2. Enter the provider client ID and client secret.
-3. Save your settings.
-4. Open `Accounts` and complete the connection flow.
+1. Open `Settings`
+2. Enter the provider client ID and client secret
+3. Save your settings
+4. Open `Accounts`
+5. Complete the connection flow
 
 You can also stream to a custom RTMP target without connecting a provider account.
 
-## Local Data And Storage
+## 📦 What Gets Stored Locally
 
 BrowserStream Studio stores its working data on your device.
 
@@ -65,19 +102,19 @@ This can include:
 - recordings and studio notes
 - plugin definitions
 
-## Security Snapshot
+## 🔒 Security Snapshot
 
-- Renderer access is isolated through the preload bridge
-- Backend input is sanitized before saving
-- Sessions, rate limiting, and security headers are enabled
-- Plugins run in a restricted sandbox
+- 🧱 renderer access is isolated through the preload bridge
+- 🧼 backend input is sanitized before saving
+- 🛡️ sessions, rate limiting, and security headers are enabled
+- 🧩 plugins run in a restricted sandbox
 
 See `SECURITY.md` for full reporting guidance and scope.
 
-## Plugin Notes
+## 🧩 Plugin Notes
 
-Plugins are local extensions that run in a restricted sandbox. They are intended for controlled in-app extensions, not unrestricted third-party code execution.
+Plugins are local extensions that run in a restricted sandbox. They are designed for controlled in-app extensions, not unrestricted third-party code execution.
 
-## License
+## 📄 License
 
-This repository currently includes the GNU GPL v3 license text in `LICENSE`.
+This repository includes the GNU GPL v3 license text in `LICENSE`.
