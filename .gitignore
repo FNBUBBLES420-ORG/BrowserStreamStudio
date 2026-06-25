@@ -53,6 +53,7 @@ Desktop.ini
 
 # Electron local development data
 .electron-user-data/
+.agents/
 
 # Coverage
 coverage/
