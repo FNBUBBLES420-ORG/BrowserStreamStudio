@@ -2,7 +2,11 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  send: (channel, data) => ipcRenderer.send(channel, data),
-  receive: (channel, func) => ipcRenderer.on(channel, (event, ...args) => func(...args)),
-  invoke: (channel, data) => ipcRenderer.invoke(channel, data)
+  getRuntime: () => ipcRenderer.invoke('desktop:getRuntime'),
+  getPreferences: () => ipcRenderer.invoke('desktop:getPreferences'),
+  savePreferences: (preferences) => ipcRenderer.invoke('desktop:savePreferences', preferences),
+  openExternal: (url) => ipcRenderer.invoke('desktop:openExternal', url),
+  openRecordingFolder: (targetPath) => ipcRenderer.invoke('desktop:openRecordingFolder', targetPath),
+  revealRecordingFile: (targetPath) => ipcRenderer.invoke('desktop:revealRecordingFile', targetPath),
+  checkForUpdates: () => ipcRenderer.invoke('desktop:checkForUpdates')
 });

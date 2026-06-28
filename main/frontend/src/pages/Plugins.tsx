@@ -35,12 +35,7 @@ const defaultPlugin: Plugin = {
   permissionLevel: 'sandboxed'
 };
 
-const pluginExample = `setOutput({
-  title: 'Starting soon',
-  overlayText: 'Welcome to the stream',
-  countdownSeconds: 30,
-  status: 'ready'
-});`;
+const pluginExample = 'setOutput({"title":"Starting soon","overlayText":"Welcome to the stream","countdownSeconds":30,"status":"ready"});';
 
 export default function Plugins() {
   const [plugins, setPlugins] = useState<Plugin[]>([]);
@@ -138,7 +133,7 @@ export default function Plugins() {
                   minRows={10}
                   fullWidth
                   placeholder={pluginExample}
-                  helperText="Plugins run in a sandbox and can only write output through setOutput(...). Example: setOutput({ title: 'Starting soon', overlayText: 'Welcome', countdownSeconds: 30 });"
+                  helperText={'Trusted plugins can return data only through a single setOutput(JSON) call. Example: setOutput({"title":"Starting soon","countdownSeconds":30});'}
                 />
                 <Box sx={{ p: 2, borderRadius: 4, bgcolor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>
@@ -159,7 +154,7 @@ export default function Plugins() {
                 </Box>
                 <Stack direction="row" spacing={1.5} alignItems="center">
                   <Switch checked={draft.trusted} onChange={(event) => setDraft({ ...draft, trusted: event.target.checked })} />
-                  <Typography variant="body2">Mark as trusted plugin</Typography>
+                  <Typography variant="body2">Mark as trusted plugin (required to run)</Typography>
                 </Stack>
                 <Stack direction="row" spacing={1.5}>
                   <Button variant="contained" onClick={savePlugin} disabled={!draft.name || !draft.code}>Save plugin</Button>

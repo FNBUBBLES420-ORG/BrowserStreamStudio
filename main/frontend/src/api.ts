@@ -12,9 +12,9 @@ const fallbackRuntime: DesktopRuntime = {
 export async function getDesktopRuntime(): Promise<DesktopRuntime> {
   if (!runtimePromise) {
     runtimePromise = (async () => {
-      if (window.electronAPI?.invoke) {
+      if (window.electronAPI?.getRuntime) {
         try {
-          return await window.electronAPI.invoke('desktop:getRuntime');
+          return await window.electronAPI.getRuntime() as DesktopRuntime;
         } catch {
           return fallbackRuntime;
         }
@@ -89,9 +89,9 @@ export async function openExternalUrl(url: string) {
     return;
   }
 
-  if (window.electronAPI?.invoke) {
+  if (window.electronAPI?.openExternal) {
     try {
-      const opened = await window.electronAPI.invoke<boolean>('desktop:openExternal', safeUrl);
+      const opened = await window.electronAPI.openExternal(safeUrl);
       if (opened) {
         return;
       }
@@ -102,60 +102,60 @@ export async function openExternalUrl(url: string) {
 }
 
 export async function getDesktopPreferences(): Promise<DesktopPreferences | null> {
-  if (!window.electronAPI?.invoke) {
+  if (!window.electronAPI?.getPreferences) {
     return null;
   }
 
   try {
-    return await window.electronAPI.invoke('desktop:getPreferences');
+    return await window.electronAPI.getPreferences() as DesktopPreferences;
   } catch {
     return null;
   }
 }
 
 export async function saveDesktopPreferences(preferences: Partial<DesktopPreferences>): Promise<DesktopPreferences | null> {
-  if (!window.electronAPI?.invoke) {
+  if (!window.electronAPI?.savePreferences) {
     return null;
   }
 
   try {
-    return await window.electronAPI.invoke('desktop:savePreferences', preferences);
+    return await window.electronAPI.savePreferences(preferences) as DesktopPreferences;
   } catch {
     return null;
   }
 }
 
 export async function openDesktopPath(targetPath: string): Promise<boolean> {
-  if (!window.electronAPI?.invoke) {
+  if (!window.electronAPI?.openRecordingFolder) {
     return false;
   }
 
   try {
-    return await window.electronAPI.invoke('desktop:openPath', targetPath);
+    return await window.electronAPI.openRecordingFolder(targetPath);
   } catch {
     return false;
   }
 }
 
 export async function showItemInFolder(targetPath: string): Promise<boolean> {
-  if (!window.electronAPI?.invoke) {
+  if (!window.electronAPI?.revealRecordingFile) {
     return false;
   }
 
   try {
-    return await window.electronAPI.invoke('desktop:showItemInFolder', targetPath);
+    return await window.electronAPI.revealRecordingFile(targetPath);
   } catch {
     return false;
   }
 }
 
 export async function checkForDesktopUpdates(): Promise<UpdateCheck | null> {
-  if (!window.electronAPI?.invoke) {
+  if (!window.electronAPI?.checkForUpdates) {
     return null;
   }
 
   try {
-    return await window.electronAPI.invoke('desktop:checkForUpdates');
+    return await window.electronAPI.checkForUpdates() as UpdateCheck;
   } catch {
     return null;
   }
