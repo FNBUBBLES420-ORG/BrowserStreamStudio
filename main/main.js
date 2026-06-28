@@ -10,12 +10,8 @@ if (!app.isPackaged) {
 }
 
 const isDev = Boolean(process.env.ELECTRON_RENDERER_URL);
-const backendUrl = process.env.ELECTRON_BACKEND_URL || 'http://127.0.0.1:4000';
 const bundledIndexPath = path.join(__dirname, 'frontend', 'dist', 'index.html');
 const splashPath = path.join(__dirname, 'splash.html');
-const frontendUrl = isDev
-  ? process.env.ELECTRON_RENDERER_URL
-  : `file://${bundledIndexPath.replace(/\\/g, '/')}`;
 const minimumSplashDurationMs = 3200;
 const desktopPrefsPath = path.join(app.getPath('userData'), 'desktop-preferences.json');
 const dbPath = path.join(app.getPath('userData'), 'db.json');
@@ -41,6 +37,30 @@ const gotSingleInstanceLock = app.requestSingleInstanceLock();
 if (!gotSingleInstanceLock) {
   app.quit();
 }
+
+function parseLoopbackUrl(value, fallbackUrl) {
+  try {
+    const parsed = new URL(value);
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+      return fallbackUrl;
+    }
+
+    const hostname = parsed.hostname.toLowerCase();
+    const isLoopbackHost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]';
+    if (!isLoopbackHost || parsed.username || parsed.password) {
+      return fallbackUrl;
+    }
+
+    return parsed.toString();
+  } catch {
+    return fallbackUrl;
+  }
+}
+
+const backendUrl = parseLoopbackUrl(process.env.ELECTRON_BACKEND_URL || 'http://127.0.0.1:4000', 'http://127.0.0.1:4000');
+const frontendUrl = isDev
+  ? parseLoopbackUrl(process.env.ELECTRON_RENDERER_URL, 'http://127.0.0.1:3000')
+  : `file://${bundledIndexPath.replace(/\\/g, '/')}`;
 
 function shouldUseTrayFeatures() {
   return app.isPackaged;
@@ -180,9 +200,19 @@ function createWindow() {
     show: false,
     backgroundColor: '#0f1720',
     webPreferences: {
+      sandbox: true,
       nodeIntegration: false,
       contextIsolation: true,
+      webSecurity: true,
+      allowRunningInsecureContent: false,
       preload: path.join(__dirname, 'preload.js')
+    }
+  });
+
+  mainWindow.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
+  mainWindow.webContents.on('will-navigate', (event, targetUrl) => {
+    if (!isAllowedWindowUrl(targetUrl)) {
+      event.preventDefault();
     }
   });
 
@@ -292,6 +322,26 @@ function parseSafeExternalUrl(value) {
   } catch {
     return null;
   }
+}
+
+function isAllowedWindowUrl(targetUrl) {
+  if (typeof targetUrl !== 'string' || !targetUrl.trim()) {
+    return false;
+  }
+
+  if (targetUrl.startsWith('data:text/html;charset=utf-8,')) {
+    return true;
+  }
+
+  if (!isDev && targetUrl === `file://${bundledIndexPath.replace(/\\/g, '/')}`) {
+    return true;
+  }
+
+  if (isDev) {
+    return targetUrl === frontendUrl;
+  }
+
+  return false;
 }
 
 function showStartupError(details) {
