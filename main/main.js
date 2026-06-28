@@ -18,6 +18,7 @@ const frontendUrl = isDev
   : `file://${bundledIndexPath.replace(/\\/g, '/')}`;
 const minimumSplashDurationMs = 3200;
 const desktopPrefsPath = path.join(app.getPath('userData'), 'desktop-preferences.json');
+const dbPath = path.join(app.getPath('userData'), 'db.json');
 const defaultDesktopPrefs = {
   closeToTray: false,
   minimizeToTray: false,
@@ -241,6 +242,58 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
+function getDesktopRecordingsRoot() {
+  try {
+    if (fs.existsSync(dbPath)) {
+      const parsed = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+      const outputPath = parsed?.appConfig?.stream?.outputPath;
+      if (typeof outputPath === 'string' && path.isAbsolute(outputPath)) {
+        return path.resolve(outputPath);
+      }
+    }
+  } catch {}
+
+  return path.resolve(path.join(app.getPath('userData'), 'recordings'));
+}
+
+function isPathInsideRoot(rootPath, candidatePath) {
+  const normalizedRoot = path.resolve(rootPath);
+  const normalizedCandidate = path.resolve(candidatePath);
+  const relative = path.relative(normalizedRoot, normalizedCandidate);
+
+  return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
+}
+
+function resolveRecordingPath(targetPath) {
+  if (typeof targetPath !== 'string' || !targetPath.trim()) {
+    return null;
+  }
+
+  const normalizedCandidate = path.resolve(targetPath);
+  const recordingsRoot = getDesktopRecordingsRoot();
+  return isPathInsideRoot(recordingsRoot, normalizedCandidate) ? normalizedCandidate : null;
+}
+
+function parseSafeExternalUrl(value) {
+  if (typeof value !== 'string' || !value.trim()) {
+    return null;
+  }
+
+  try {
+    const parsed = new URL(value);
+    if (!['https:', 'http:'].includes(parsed.protocol)) {
+      return null;
+    }
+    if (!parsed.hostname || parsed.username || parsed.password) {
+      return null;
+    }
+
+    return parsed.toString();
+  } catch {
+    return null;
+  }
+}
+
 function showStartupError(details) {
   if (!mainWindow) {
     return;
@@ -347,26 +400,29 @@ ipcMain.handle('desktop:getRuntime', async () => ({
 ipcMain.handle('desktop:getPreferences', async () => desktopPrefs);
 ipcMain.handle('desktop:savePreferences', async (event, nextPrefs) => saveDesktopPrefs(nextPrefs || {}));
 ipcMain.handle('desktop:openExternal', async (event, url) => {
-  if (typeof url === 'string' && /^https?:\/\//i.test(url)) {
-    await shell.openExternal(url);
+  const safeUrl = parseSafeExternalUrl(url);
+  if (safeUrl) {
+    await shell.openExternal(safeUrl);
     return true;
   }
   return false;
 });
-ipcMain.handle('desktop:openPath', async (event, targetPath) => {
-  if (typeof targetPath !== 'string' || !targetPath.trim()) {
+ipcMain.handle('desktop:openRecordingFolder', async (event, targetPath) => {
+  const safePath = resolveRecordingPath(targetPath);
+  if (!safePath) {
     return false;
   }
 
-  const result = await shell.openPath(targetPath);
+  const result = await shell.openPath(safePath);
   return result === '';
 });
-ipcMain.handle('desktop:showItemInFolder', async (event, targetPath) => {
-  if (typeof targetPath !== 'string' || !targetPath.trim()) {
+ipcMain.handle('desktop:revealRecordingFile', async (event, targetPath) => {
+  const safePath = resolveRecordingPath(targetPath);
+  if (!safePath || !fs.existsSync(safePath) || !fs.statSync(safePath).isFile()) {
     return false;
   }
 
-  shell.showItemInFolder(targetPath);
+  shell.showItemInFolder(safePath);
   return true;
 });
 ipcMain.handle('desktop:checkForUpdates', async () => ({

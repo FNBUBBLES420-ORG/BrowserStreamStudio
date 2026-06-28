@@ -2,8 +2,12 @@
 
 interface Window {
   electronAPI?: {
-    send: (channel: string, data?: unknown) => void;
-    receive: (channel: string, callback: (...args: unknown[]) => void) => void;
-    invoke: <T = unknown>(channel: string, data?: unknown) => Promise<T>;
+    getRuntime: () => Promise<unknown>;
+    getPreferences: () => Promise<unknown>;
+    savePreferences: (preferences: unknown) => Promise<unknown>;
+    openExternal: (url: string) => Promise<boolean>;
+    openRecordingFolder: (targetPath: string) => Promise<boolean>;
+    revealRecordingFile: (targetPath: string) => Promise<boolean>;
+    checkForUpdates: () => Promise<unknown>;
   };
 }

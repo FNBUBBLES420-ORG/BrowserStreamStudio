@@ -1,5 +1,4 @@
 const path = require('path');
-const vm = require('vm');
 const fs = require('fs');
 const { spawn, spawnSync } = require('child_process');
 
@@ -790,19 +789,22 @@ function ensureValidProviderParam(req, res, next) {
 }
 
 function ensureSafePluginCode(code) {
-  const blockedPatterns = [
-    /\brequire\s*\(/,
-    /\bprocess\b/,
-    /\bglobalThis\b/,
-    /\bglobal\b/,
-    /\bFunction\s*\(/,
-    /\beval\s*\(/,
-    /\bimport\s*\(/,
-    /\bfetch\s*\(/,
-    /\bXMLHttpRequest\b/
-  ];
+  try {
+    extractPluginOutput(code);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
-  return !blockedPatterns.some((pattern) => pattern.test(code));
+function extractPluginOutput(code) {
+  const source = String(code ?? '').trim();
+  const match = source.match(/^setOutput\s*\(([\s\S]+)\)\s*;?$/);
+  if (!match) {
+    throw new Error('Plugins must contain exactly one setOutput(JSON) call.');
+  }
+
+  return JSON.parse(match[1]);
 }
 
 function checkFfmpeg() {
@@ -1354,11 +1356,11 @@ app.get('/api/plugins/templates', (req, res) => {
   res.json([
     {
       name: 'Countdown Overlay',
-      code: "setOutput({ message: 'Countdown ready', seconds: 30 });"
+      code: 'setOutput({"message":"Countdown ready","seconds":30});'
     },
     {
       name: 'Scene Note',
-      code: "setOutput({ note: 'Remember to greet chat and verify audio levels.' });"
+      code: 'setOutput({"note":"Remember to greet chat and verify audio levels."});'
     }
   ]);
 });
@@ -1448,26 +1450,17 @@ app.post('/api/plugins/execute', async (req, res) => {
   if (!plugin.enabled) {
     return res.status(400).json({ error: 'Plugin is disabled.' });
   }
-
-  const sandbox = {
-    input: typeof req.body?.input === 'object' && req.body.input !== null ? req.body.input : {},
-    output: null,
-    setOutput(value) {
-      sandbox.output = value;
-    },
-    console: {
-      log: () => {}
-    }
-  };
+  if (!plugin.trusted) {
+    return res.status(403).json({ error: 'Only trusted plugins can run.' });
+  }
 
   try {
-    vm.createContext(sandbox, { codeGeneration: { strings: false, wasm: false } });
-    vm.runInContext(`(function(){ ${plugin.code} })()`, sandbox, { timeout: 1000 });
+    const output = extractPluginOutput(plugin.code);
     plugin.lastRunAt = new Date().toISOString();
-    trackPluginLog({ plugin: plugin.name, status: 'success', output: sandbox.output });
+    trackPluginLog({ plugin: plugin.name, status: 'success', output });
     addActivity('plugin-ran', { name: plugin.name });
     await db.write();
-    res.json({ success: true, output: sandbox.output });
+    res.json({ success: true, output });
   } catch (error) {
     trackPluginLog({ plugin: plugin.name, status: 'error', error: error.message });
     res.status(400).json({ error: 'Plugin execution error', details: error.message });

@@ -1,6 +1,6 @@
 {
   "name": "web-based-streaming-app",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Desktop-first local streaming studio with Electron, React, and provider integrations.",
   "author": "FNBubbles420 Org",
   "private": true,
