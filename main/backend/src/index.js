@@ -983,7 +983,6 @@ function listRecordings() {
 
 app.disable('x-powered-by');
 app.use(helmet({
-  contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false
 }));
 app.use(cors({
