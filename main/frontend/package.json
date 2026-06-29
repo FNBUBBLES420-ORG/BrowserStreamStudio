@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "0.1.1",
+  "version": "0.1.5",
   "private": true,
   "main": "src/index.tsx",
   "scripts": {
@@ -29,7 +29,7 @@
     "@typescript-eslint/eslint-plugin": "^8.62.0",
     "@typescript-eslint/parser": "^8.62.0",
     "@vitejs/plugin-react": "^6.0.3",
-    "eslint": "^10.5.0",
+    "eslint": "^10.6.0",
     "eslint-plugin-react": "^7.34.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "typescript": "6.0.3",
