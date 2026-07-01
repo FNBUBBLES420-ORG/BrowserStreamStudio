@@ -164,9 +164,12 @@ let runtimeStatus = {
 };
 
 function resolveBundledBinary(name) {
+  const projectRoot = path.resolve(__dirname, '..', '..', '..');
   const candidates = [
     path.join(process.cwd(), `${name}.exe`),
     path.join(process.cwd(), name),
+    path.join(projectRoot, 'build', `${name}.exe`),
+    path.join(projectRoot, 'build', name),
     path.join(process.resourcesPath || '', 'bin', `${name}.exe`),
     path.join(process.resourcesPath || '', 'bin', name)
   ];
