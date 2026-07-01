@@ -27,45 +27,64 @@ export async function getDesktopRuntime(): Promise<DesktopRuntime> {
   return runtimePromise;
 }
 
-export async function buildApiUrl(endpoint: string): Promise<string> {
-  const runtime = await getDesktopRuntime();
-  if (!runtime.backendUrl) {
-    return endpoint;
+function buildBackendCandidates(runtime: DesktopRuntime, endpoint: string): string[] {
+  const candidates: string[] = [];
+  const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+
+  if (runtime.backendUrl) {
+    candidates.push(`${runtime.backendUrl}${normalizedEndpoint}`);
   }
 
-  return `${runtime.backendUrl}${endpoint}`;
+  if (window.location.protocol !== 'file:') {
+    candidates.push(normalizedEndpoint);
+  }
+
+  // Fall back to the local backend when the renderer is running outside Electron
+  // or the preload bridge has not exposed a backend URL yet.
+  candidates.push(`http://127.0.0.1:4000${normalizedEndpoint}`);
+  candidates.push(`http://localhost:4000${normalizedEndpoint}`);
+
+  return Array.from(new Set(candidates));
+}
+
+export async function buildApiUrl(endpoint: string): Promise<string> {
+  const runtime = await getDesktopRuntime();
+  return buildBackendCandidates(runtime, endpoint)[0];
 }
 
 export async function apiRequest<T>(endpoint: string, init?: RequestInit): Promise<T> {
-  const url = await buildApiUrl(endpoint);
+  const runtime = await getDesktopRuntime();
+  const urls = buildBackendCandidates(runtime, endpoint);
   let lastError: unknown = null;
 
   for (let attempt = 0; attempt < 10; attempt += 1) {
-    try {
-      const response = await fetch(url, {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(init?.headers || {})
-        },
-        ...init
-      });
+    for (const url of urls) {
+      try {
+        const response = await fetch(url, {
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(init?.headers || {})
+          },
+          ...init
+        });
 
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data.error || data.message || 'Request failed');
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data.error || data.message || 'Request failed');
+        }
+
+        return data as T;
+      } catch (error) {
+        lastError = error;
       }
-
-      return data as T;
-    } catch (error) {
-      lastError = error;
-
-      if (attempt === 9) {
-        throw error;
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 300));
     }
+
+    if (attempt === 9) {
+      throw lastError instanceof Error ? lastError : new Error('Request failed');
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 300));
   }
 
   throw lastError instanceof Error ? lastError : new Error('Request failed');

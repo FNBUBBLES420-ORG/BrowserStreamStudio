@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "0.1.5",
+  "version": "0.1.8",
   "private": true,
   "main": "src/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "passport-oauth2": "^1.8.0",
     "passport-twitch-new": "^0.0.3",
     "sanitize-html": "^2.17.5",
-    "vite": "^8.1.0"
+    "vite": "^8.1.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
