@@ -37,11 +37,11 @@ Download the Windows installer from:
 
 Installer name:
 
-`BrowserStream Studio Setup 0.1.4.exe`
+`BrowserStream Studio Setup 1.2.10.exe`
 
 To install:
 
-1. Download `BrowserStream Studio Setup 0.1.4.exe`
+1. Download `BrowserStream Studio Setup 1.2.10.exe`
 2. Double-click the installer
 3. Follow the setup steps on screen
 4. Open BrowserStream Studio from your desktop or Start menu

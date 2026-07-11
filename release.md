@@ -1,10 +1,10 @@
-# BrowserStream Studio 0.1.8
+# BrowserStream Studio 1.2.10
 
 ## Windows Installer
 
 Download and run:
 
-`BrowserStream Studio Setup 0.1.8.exe`
+`BrowserStream Studio Setup 1.2.10.exe`
 
 ## Included In This Build
 
@@ -22,7 +22,7 @@ Download and run:
 
 ## Install Steps
 
-1. Open `BrowserStream Studio Setup 0.1.8.exe`
+1. Open `BrowserStream Studio Setup 1.2.10.exe`
 2. Follow the installer steps
 3. Finish setup
 4. Launch BrowserStream Studio from the desktop or Start menu
