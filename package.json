@@ -1,6 +1,6 @@
 {
   "name": "web-based-streaming-app",
-  "version": "0.1.8",
+  "version": "0.1.10",
   "description": "Desktop-first local streaming studio with Electron, React, and provider integrations.",
   "author": "FNBubbles420 Org",
   "private": true,
@@ -36,11 +36,11 @@
     "passport": "^0.7.0",
     "passport-oauth2": "^1.6.1",
     "passport-twitch-new": "^0.0.3",
-    "sanitize-html": "^2.17.5"
+    "sanitize-html": "^2.17.6"
   },
   "devDependencies": {
     "concurrently": "^10.0.3",
-    "electron": "^43.0.0",
+    "electron": "^43.1.0",
     "electron-builder": "^26.15.3"
   },
   "build": {
